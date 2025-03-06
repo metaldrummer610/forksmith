@@ -5,6 +5,7 @@ CYAN   := $(shell tput -Txterm setaf 6)
 RESET  := $(shell tput -Txterm sgr0)
 
 BIN_NAME := forksmith
+GOBIN ?= $$(go env GOPATH)/bin
 
 .PHONY: all test build lint clean
 
@@ -22,6 +23,15 @@ lint: ## Runs linting tools against the workspace
 
 clean: ## Cleans the built binary
 	@rm -rf $(BIN_NAME)
+
+.PHONY: install-go-test-coverage
+install-go-test-coverage:
+	go install github.com/vladopajic/go-test-coverage/v2@latest
+
+.PHONY: coverage
+coverage: install-go-test-coverage
+	go test ./... -coverprofile=./cover.out -covermode=atomic -coverpkg=./...
+	${GOBIN}/go-test-coverage --config=./.testcoverage.yml
 
 ## Help:
 help: ## Show this help.

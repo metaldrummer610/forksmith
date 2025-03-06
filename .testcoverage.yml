@@ -1,0 +1,9 @@
+# For reference, see: https://github.com/marketplace/actions/go-test-coverage
+profile: cover.out
+
+local-prefix: github.com/metaldrummer610/forksmith
+
+threshold:
+  file: 70
+  package: 75
+  total: 85
